@@ -2,8 +2,10 @@ pipeline {
     agent any
 
     triggers {
-        // Déclenche le pipeline lorsqu'une pull request est créée ou mise à jour
-        githubPullRequest()
+
+        githubPush()
+
+
     }
 
     stages {
@@ -18,7 +20,6 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building the application...'
-                // Installer les dépendances du projet avec npm
                 sh 'npm install'
             }
         }
@@ -26,7 +27,6 @@ pipeline {
         stage('Unit Test') {
             steps {
                 echo 'Running Unit Tests...'
-                // Exécuter les tests unitaires avec npm
                 sh 'npm test'
             }
         }
@@ -35,8 +35,8 @@ pipeline {
     post {
         always {
             echo 'Pipeline finished. Archiving test results...'
-            // Sauvegarder les résultats des tests dans un rapport JUnit
-            junit '*/test-results/**/.xml' // Adapter le chemin des rapports JUnit si nécessaire
+            // Sauvegarder les résultats des tests (JUnit)
+            junit 'build/test-results/**/*.xml' // Chemin des rapports JUnit (adapter si nécessaire)
         }
         success {
             echo 'Pipeline succeeded.'
