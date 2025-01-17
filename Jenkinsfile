@@ -13,38 +13,32 @@ pipeline {
             }
         }
 
-        stage('Build Frontend') {
-            steps {
-                echo 'Building the frontend application...'
-                dir('frontend') {  // Répertoire frontend
-                    sh 'npm install'
-                }
-            }
-        }
-
+        // Build Backend
         stage('Build Backend') {
             steps {
-                echo 'Building the backend application...'
-                dir('backend') {  // Répertoire backend
-                    sh 'npm install'
+                echo 'Building the backend...'
+                dir('backend') {
+                    sh 'npm install' // Installer les dépendances du backend
                 }
             }
         }
 
-        stage('Unit Test Frontend') {
-            steps {
-                echo 'Running Unit Tests for Frontend...'
-                dir('frontend') {  // Répertoire frontend
-                    sh 'npm test'
-                }
-            }
-        }
-
+        // Unit Test Backend
         stage('Unit Test Backend') {
             steps {
                 echo 'Running Unit Tests for Backend...'
-                dir('backend') {  // Répertoire backend
-                    sh 'npm test'
+                dir('backend') {
+                    sh 'npm test' // Exécuter les tests backend
+                }
+            }
+        }
+
+        // Build Frontend (sans tests)
+        stage('Build Frontend') {
+            steps {
+                echo 'Building the frontend...'
+                dir('frontend') {
+                    sh 'npm install' // Installer les dépendances du frontend
                 }
             }
         }
@@ -52,8 +46,7 @@ pipeline {
 
     post {
         always {
-            echo 'Pipeline finished. Archiving test results...'
-            junit 'build/test-results/**/*.xml'  // Chemin des rapports JUnit (adapter si nécessaire)
+            echo 'Pipeline finished.'
         }
         success {
             echo 'Pipeline succeeded.'
@@ -61,5 +54,7 @@ pipeline {
         failure {
             echo 'Pipeline failed.'
         }
+        // Archive les résultats des tests JUnit générés par Jest pour le Backend
+        junit '**/backend/build/test-results/test-results.xml' // Chemin des rapports JUnit backend
     }
 }
