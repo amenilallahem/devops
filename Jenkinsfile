@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     triggers {
-        // Utilisation d'une méthode sans bloc
-        githubPullRequest(orgWhitelist: 'amenilallahem', allowRevisionBuilds: true)
+        // Utilisation du déclencheur githubPullRequests
+        githubPullRequests(orgWhitelist: 'amenilallahem', allowRevisionBuilds: true)
     }
 
     stages {
