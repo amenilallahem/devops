@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     triggers {
-        githubPullRequests() // Un seul bloc sans paramètres supplémentaires
+        githubPush()
     }
 
     stages {
