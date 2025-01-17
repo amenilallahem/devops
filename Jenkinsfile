@@ -2,11 +2,8 @@ pipeline {
     agent any
 
     triggers {
-        // Déclenchement automatique du pipeline lors de la création ou mise à jour d'une Pull Request
-        githubPullRequest {
-            orgWhitelist('amenilallahem')  // Remplacez par votre organisation GitHub
-            allowRevisionBuilds(true)
-        }
+        // Utilisation d'une méthode sans bloc
+        githubPullRequest(orgWhitelist: 'amenilallahem', allowRevisionBuilds: true)
     }
 
     stages {
