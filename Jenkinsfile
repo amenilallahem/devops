@@ -2,7 +2,11 @@ pipeline {
     agent any
 
     triggers {
-        githubPullRequests()
+        githubPullRequests(
+            repoOwner: 'amenilallahem', // Propriétaire du dépôt GitHub
+            repository: 'devops',       // Nom du dépôt
+            event: 'opened'             // Événement spécifique (ex: opened, reopened, synchronized)
+        )
     }
 
     stages {
@@ -17,7 +21,7 @@ pipeline {
             steps {
                 echo 'Building the backend...'
                 dir('backend') {
-                    sh 'npm install' // Installer les dépendances du backend
+                    sh 'npm install'
                 }
             }
         }
@@ -26,7 +30,7 @@ pipeline {
             steps {
                 echo 'Running Unit Tests for Backend...'
                 dir('backend') {
-                    sh 'npm test' // Exécuter les tests backend
+                    sh 'npm test'
                 }
             }
         }
@@ -35,7 +39,7 @@ pipeline {
             steps {
                 echo 'Building the frontend...'
                 dir('frontend') {
-                    sh 'npm install' // Installer les dépendances du frontend
+                    sh 'npm install'
                 }
             }
         }
