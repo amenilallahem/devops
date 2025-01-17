@@ -2,8 +2,11 @@ pipeline {
     agent any
 
     triggers {
-        // Vérifie les PR toutes les 5 minutes (ou via un webhook GitHub)
-        cron('H/5 * * * *') 
+        // Déclenchement automatique du pipeline lors de la création ou mise à jour d'une Pull Request
+        githubPullRequest {
+            orgWhitelist('amenilallahem')  // Remplacez par votre organisation GitHub
+            allowRevisionBuilds(true)
+        }
     }
 
     stages {
