@@ -30,7 +30,7 @@ pipeline {
                 }
             }
         }
-    }
+
         stage('Build Frontend') {
             steps {
                 echo 'Building the frontend...'
@@ -40,7 +40,6 @@ pipeline {
             }
         }
     }
-
 
     post {
         always {
