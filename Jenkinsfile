@@ -13,7 +13,6 @@ pipeline {
             }
         }
 
-        // Build Backend
         stage('Build Backend') {
             steps {
                 echo 'Building the backend...'
@@ -23,22 +22,11 @@ pipeline {
             }
         }
 
-        // Unit Test Backend
         stage('Unit Test Backend') {
             steps {
                 echo 'Running Unit Tests for Backend...'
                 dir('backend') {
                     sh 'npm test' // Exécuter les tests backend
-                }
-            }
-        }
-
-        // Build Frontend (sans tests)
-        stage('Build Frontend') {
-            steps {
-                echo 'Building the frontend...'
-                dir('frontend') {
-                    sh 'npm install' // Installer les dépendances du frontend
                 }
             }
         }
@@ -54,7 +42,5 @@ pipeline {
         failure {
             echo 'Pipeline failed.'
         }
-        // Archive les résultats des tests JUnit générés par Jest pour le Backend
-        junit '**/backend/build/test-results/test-results.xml' // Chemin des rapports JUnit backend
     }
 }
