@@ -2,32 +2,50 @@ pipeline {
     agent any
 
     triggers {
-
         githubPush()
-
-
     }
 
     stages {
         stage('Checkout') {
             steps {
                 echo 'Checking out the code...'
-                // Cloner le code source depuis le dépôt Git
                 checkout scm
             }
         }
 
-        stage('Build') {
+        stage('Build Frontend') {
             steps {
-                echo 'Building the application...'
-                sh 'npm install'
+                echo 'Building the frontend application...'
+                dir('frontend') {  // Répertoire frontend
+                    sh 'npm install'
+                }
             }
         }
 
-        stage('Unit Test') {
+        stage('Build Backend') {
             steps {
-                echo 'Running Unit Tests...'
-                sh 'npm test'
+                echo 'Building the backend application...'
+                dir('backend') {  // Répertoire backend
+                    sh 'npm install'
+                }
+            }
+        }
+
+        stage('Unit Test Frontend') {
+            steps {
+                echo 'Running Unit Tests for Frontend...'
+                dir('frontend') {  // Répertoire frontend
+                    sh 'npm test'
+                }
+            }
+        }
+
+        stage('Unit Test Backend') {
+            steps {
+                echo 'Running Unit Tests for Backend...'
+                dir('backend') {  // Répertoire backend
+                    sh 'npm test'
+                }
             }
         }
     }
@@ -35,8 +53,7 @@ pipeline {
     post {
         always {
             echo 'Pipeline finished. Archiving test results...'
-            // Sauvegarder les résultats des tests (JUnit)
-            junit 'build/test-results/**/*.xml' // Chemin des rapports JUnit (adapter si nécessaire)
+            junit 'build/test-results/**/*.xml'  // Chemin des rapports JUnit (adapter si nécessaire)
         }
         success {
             echo 'Pipeline succeeded.'
