@@ -2,9 +2,8 @@ pipeline {
     agent any
 
     triggers {
-        githubPullRequests {
-            events ['opened', 'reopened', 'synchronized']
-        }
+        // Vérifie les PR toutes les 5 minutes (ou via un webhook GitHub)
+        cron('H/5 * * * *') 
     }
 
     stages {
