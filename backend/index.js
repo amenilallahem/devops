@@ -26,7 +26,11 @@ mongoose
 
 app.use('/', Routes);
 
-app.listen(PORT, () => {
-    console.log(`Server started at port no. ${PORT}`)
-})
+// Ne pas écouter le port ici pendant les tests
+if (process.env.NODE_ENV !== 'test') {
+    const PORT = 5000;
+    app.listen(PORT, () => {
+        console.log(`Server started at port no. ${PORT}`);
+    });
+}
 module.exports = app;
