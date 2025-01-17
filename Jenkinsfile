@@ -3,7 +3,11 @@ pipeline {
 
     triggers {
         githubPullRequests(
-            events: ['opened', 'reopened', 'synchronized'] // Événements à surveiller
+            events: [
+                ghprbTriggerEvent { type 'PullRequestOpenedEvent' },
+                ghprbTriggerEvent { type 'PullRequestReopenedEvent' },
+                ghprbTriggerEvent { type 'PullRequestSynchronizeEvent' }
+            ]
         )
     }
 
@@ -19,7 +23,7 @@ pipeline {
             steps {
                 echo 'Building the backend...'
                 dir('backend') {
-                    sh 'npm install' // Installer les dépendances du backend
+                    sh 'npm install' // Install backend dependencies
                 }
             }
         }
@@ -28,7 +32,7 @@ pipeline {
             steps {
                 echo 'Running Unit Tests for Backend...'
                 dir('backend') {
-                    sh 'npm test' // Exécuter les tests backend
+                    sh 'npm test' // Run backend tests
                 }
             }
         }
@@ -37,7 +41,7 @@ pipeline {
             steps {
                 echo 'Building the frontend...'
                 dir('frontend') {
-                    sh 'npm install' // Installer les dépendances du frontend
+                    sh 'npm install' // Install frontend dependencies
                 }
             }
         }
