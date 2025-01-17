@@ -1,8 +1,5 @@
 pipeline {
     agent any
-    environement {
-        NODE_VERSION = '22.x'
-    }
 
     triggers {
 
