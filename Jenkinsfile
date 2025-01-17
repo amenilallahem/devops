@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     triggers {
-        githubPush()
+        githubPullRequest()
     }
 
     stages {
@@ -31,6 +31,16 @@ pipeline {
             }
         }
     }
+        stage('Build Frontend') {
+            steps {
+                echo 'Building the frontend...'
+                dir('frontend') {
+                    sh 'npm install' // Installer les dépendances du frontend
+                }
+            }
+        }
+    }
+
 
     post {
         always {
